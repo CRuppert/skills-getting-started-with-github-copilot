@@ -48,25 +48,23 @@ document.addEventListener("DOMContentLoaded", () => {
           ${participantsHTML}
         `;
           // Add event listeners for delete icons
-          setTimeout(() => {
-            activityCard.querySelectorAll('.delete-participant').forEach(icon => {
-              icon.addEventListener('click', async (e) => {
-                const activity = icon.getAttribute('data-activity');
-                const email = icon.getAttribute('data-email');
-                try {
-                  const response = await fetch(`/activities/${encodeURIComponent(activity)}/unregister?email=${encodeURIComponent(email)}`, { method: 'POST' });
-                  if (response.ok) {
-                    fetchActivities();
-                  } else {
-                    const result = await response.json();
-                    alert(result.detail || 'Failed to remove participant.');
-                  }
-                } catch (err) {
-                  alert('Error removing participant.');
+          activityCard.querySelectorAll('.delete-participant').forEach(icon => {
+            icon.addEventListener('click', async (e) => {
+              const activity = icon.getAttribute('data-activity');
+              const email = icon.getAttribute('data-email');
+              try {
+                const response = await fetch(`/activities/${encodeURIComponent(activity)}/unregister?email=${encodeURIComponent(email)}`, { method: 'POST' });
+                if (response.ok) {
+                  fetchActivities();
+                } else {
+                  const result = await response.json();
+                  alert(result.detail || 'Failed to remove participant.');
                 }
-              });
+              } catch (err) {
+                alert('Error removing participant.');
+              }
             });
-          }, 0);
+          });
 
         activitiesList.appendChild(activityCard);
 
